@@ -101,6 +101,8 @@ const getPuter = (): typeof window.puter | null =>
 
 export const usePuterStore = create<PuterStore>((set, get) => {
     const setError = (msg: string) => {
+        
+
         set({
             error: msg,
             isLoading: false,
