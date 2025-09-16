@@ -1,38 +1,40 @@
+"use client";
+
 export interface PdfConversionResult {
     imageUrl: string;
     file: File | null;
     error?: string;
 }
 
-let pdfjsLib: any = null;
-let isLoading = false;
-let loadPromise: Promise<any> | null = null;
-
-async function loadPdfJs(): Promise<any> {
-    if (pdfjsLib) return pdfjsLib;
-    if (loadPromise) return loadPromise;
-
-    isLoading = true;
-    // @ts-expect-error - pdfjs-dist/build/pdf.mjs is not a module
-    loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-        // Set the worker source to use local file
-        lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        pdfjsLib = lib;
-        isLoading = false;
-        return lib;
-    });
-
-    return loadPromise;
-}
-
 export async function convertPdfToImage(
     file: File
 ): Promise<PdfConversionResult> {
     try {
-        const lib = await loadPdfJs();
+        // Validate file type and size
+        if (file.type !== 'application/pdf') {
+            return {
+                imageUrl: "",
+                file: null,
+                error: "Invalid file type. Please upload a PDF file.",
+            };
+        }
+        if (file.size === 0) {
+            return {
+                imageUrl: "",
+                file: null,
+                error: "File is empty.",
+            };
+        }
+
+        // Dynamically import pdfjs-dist to avoid SSR issues
+        const pdfjsLib = await import('pdfjs-dist');
+
+        // Set the worker source
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
+        const uint8Array = new Uint8Array(arrayBuffer);
+        const pdf = await pdfjsLib.getDocument({ data: uint8Array, password: '' }).promise;
         const page = await pdf.getPage(1);
 
         const viewport = page.getViewport({ scale: 4 });
@@ -47,7 +49,7 @@ export async function convertPdfToImage(
             context.imageSmoothingQuality = "high";
         }
 
-        await page.render({ canvasContext: context!, viewport }).promise;
+        await page.render({ canvasContext: context!, viewport, canvas }).promise;
 
         return new Promise((resolve) => {
             canvas.toBlob(
@@ -76,10 +78,11 @@ export async function convertPdfToImage(
             ); // Set quality to maximum (1.0)
         });
     } catch (err) {
+        console.error("PDF conversion error:", err);
         return {
             imageUrl: "",
             file: null,
-            error: `Failed to convert PDF: ${err}`,
+            error: `Failed to convert PDF: ${err instanceof Error ? err.message : String(err)}`,
         };
     }
 }
