@@ -5,8 +5,32 @@
       "destination": "/assets/$1"
     },
     {
-      "source": "/projects/ai-resume-analyzer/(.*\\.(ico|html|xml|txt|mjs|css|js|png|jpg|jpeg|svg|gif|webmanifest))",
-      "destination": "/$1"
+      "source": "/projects/ai-resume-analyzer/images/(.*)",
+      "destination": "/images/$1"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/icons/(.*)",
+      "destination": "/icons/$1"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(favicon.ico)",
+      "destination": "/favicon.ico"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(robots.txt)",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(sitemap.xml)",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(pdf.worker.min.mjs)",
+      "destination": "/pdf.worker.min.mjs"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(google48443a28c267ae72.html)",
+      "destination": "/google48443a28c267ae72.html"
     }
   ]
 }
