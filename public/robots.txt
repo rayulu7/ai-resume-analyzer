@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /projects/ai-resume-analyzer/
+
+# Block private/dynamic routes
+Disallow: /projects/ai-resume-analyzer/resume/
+Disallow: /projects/ai-resume-analyzer/wipe
+Disallow: /projects/ai-resume-analyzer/auth
+
+Sitemap: https://rayulumukku.com/projects/ai-resume-analyzer/sitemap.xml

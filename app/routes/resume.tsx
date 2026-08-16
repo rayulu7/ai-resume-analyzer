@@ -8,8 +8,12 @@ import ATS from "~/components/ATS";
 import Details from "~/components/Details";
 
 export const meta = () => ([
-    { title: 'Resumind | Review ' },
-    { name: 'description', content: 'Detailed overview of your resume' },
+    { title: 'Resume Review — Resumind' },
+    { name: 'description', content: 'View your AI-generated resume analysis — ATS score, keyword analysis, tone, structure, and detailed improvement suggestions.' },
+    { name: 'robots', content: 'noindex, nofollow' },
+    { property: 'og:title',       content: 'Resume Review — Resumind' },
+    { property: 'og:description', content: 'Your AI resume review: ATS score, keyword analysis, and improvement tips.' },
+    { property: 'og:type',        content: 'website' },
 ])
 
 const Resume = () => {
