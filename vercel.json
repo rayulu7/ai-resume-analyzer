@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/projects/ai-resume-analyzer/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/projects/ai-resume-analyzer/(.*\\.(ico|html|xml|txt|mjs|css|js|png|jpg|jpeg|svg|gif|webmanifest))",
+      "destination": "/$1"
+    }
+  ]
+}
